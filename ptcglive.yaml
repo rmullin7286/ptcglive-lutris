@@ -1,0 +1,30 @@
+name: Pokemon TCG Live
+game_slug: pokemon-tcg-live
+version: PTCGL Installer
+slug: pokemon-tcg-live-installer
+runner: wine
+
+script:
+  files:
+  - installer: https://installer.studio-prod.pokemon.com/installer/PokemonTCGLiveInstaller.msi 
+  game:
+    arch: win64
+    exe: "drive_c/users/ryan/The Pok\xE9mon Company International/Pok\xE9mon Trading Card Game Live/Pokemon TCG Live.exe"
+    prefix: $GAMEDIR
+  installer:
+  - task:
+      arch: win64
+      name: create_prefix
+      prefix: $GAMEDIR
+  - task:
+      name: winetricks
+      app: vcrun2019
+  - task:
+      arch: win64
+      executable: installer
+      name: wineexec
+      prefix: $GAMEDIR
+  - task:
+      arch: win64
+      name: winekill
+      prefix: $GAMEDIR
